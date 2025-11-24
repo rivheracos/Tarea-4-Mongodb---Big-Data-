@@ -1,0 +1,65 @@
+use ffbc_catalog;
+
+let productos = [];
+
+function rnd(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+const nombres = [
+  "Mochila", "Camiseta", "Cuaderno", "Taza", "Llavero",
+  "Bolígrafo", "Gorra", "Agenda", "Bolso", "Sudadera"
+];
+
+const categorias = ["Accesorios", "Ropa", "Papelería", "Regalos"];
+
+const tags = [
+  ["eco", "nuevo"],
+  ["promocion", "popular"],
+  ["edicion-limitada"],
+  ["oferta"],
+  ["papeleria"]
+];
+
+const colores = [
+  ["negro", "azul"],
+  ["blanco", "negro"],
+  ["rojo"],
+  ["verde", "morado"],
+  ["amarillo", "negro"]
+];
+
+for (let i = 1; i <= 120; i++) {
+  let nombre = `${nombres[i % nombres.length]} ${1000 + i}`;
+  let categoria = categorias[i % categorias.length];
+
+  productos.push({
+    sku: "FFBC-" + (1000 + i),
+    name: nombre,
+    description: `Producto de ejemplo número ${i}`,
+    category: categoria,
+    tags: tags[i % tags.length],
+    attributes: {
+      color: colores[i % colores.length],
+      size: (i % 3 === 0 ? ["S", "M", "L"] : ["único"])
+    },
+    price: rnd(5000, 200000),
+    currency: "COP",
+
+    stock: {
+      central: rnd(0, 50),
+      bucaramanga: rnd(0, 30)
+    },
+
+    rating: Number((Math.random() * 2 + 3).toFixed(1)),
+    reviews: [],
+
+    created_at: new Date(),
+    updated_at: new Date()
+  });
+}
+
+db.products.insertMany(productos);
+
+"Insertados: " + productos.length;
+

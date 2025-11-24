@@ -1,0 +1,87 @@
+Consultas CRUD realizadas
+
+A continuación se presentan las consultas ejecutadas en MongoDB Compass utilizando la sección “Documents” → “Filter” e “Insert Document”.
+
+3.1 Inserción (Insert One)
+db.products.insertOne({
+  sku: "FFBC-2001",
+  name: "Bolsa promocional 2025",
+  category: "Regalos",
+  price: 12000,
+  stock: { central: 100, bucaramanga: 20 }
+})
+
+3.2 Consulta (Find)
+
+✔ Buscar todos los productos de la categoría Ropa:
+
+db.products.find({ category: "Ropa" })
+
+
+✔ Productos con precio menor a 50.000 COP:
+
+db.products.find({ price: { $lt: 50000 } })
+
+3.3 Actualización (Update One)
+
+Incrementar el stock en la sede central:
+
+db.products.updateOne(
+  { sku: "FFBC-2001" },
+  { $inc: { "stock.central": 5 } }
+)
+
+3.4 Eliminación (Delete One)
+db.products.deleteOne({ sku: "FFBC-2001" })
+
+4. Agregaciones en MongoDB
+
+Se usó la sección Aggregations de Compass para ejecutar los siguientes pipelines.
+
+4.1 Cantidad de productos por categoría
+[
+  { $group: { _id: "$category", totalProducts: { $sum: 1 } } },
+  { $sort: { totalProducts: -1 } }
+]
+
+Interpretación:
+
+Se identificó la categoría con mayor número de productos, permitiendo visualizar cuáles áreas del catálogo están más cargadas y requieren control o promoción.
+
+4.2 Precio promedio por categoría
+[
+  { 
+    $group: { 
+      _id: "$category",
+      avgPrice: { $avg: "$price" },
+      minPrice: { $min: "$price" },
+      maxPrice: { $max: "$price" },
+      total: { $sum: 1 }
+    }
+  }
+]
+
+Interpretación:
+
+El análisis permitió identificar categorías con precios promedio más altos, útil para estrategias comerciales y decisiones de inventario.
+
+4.3 Stock total por sede
+[
+  { 
+    $group: {
+      _id: null,
+      totalCentral: { $sum: "$stock.central" },
+      totalBucaramanga: { $sum: "$stock.bucaramanga" }
+    }
+  }
+]
+
+Interpretación:
+
+Se evidenció una diferencia marcada entre el inventario disponible en la sede central y Bucaramanga, útil para redistribuir inventario o ajustar compras.
+
+4.4 Productos con bajo stock
+[
+  { $match: { "stock.central": { $lt: 5 } } },
+  { $sort: { "stock.central": 1 } }
+]

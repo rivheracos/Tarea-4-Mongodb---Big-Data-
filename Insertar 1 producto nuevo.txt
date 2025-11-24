@@ -1,0 +1,14 @@
+db.products.insertOne({
+  sku: "FFBC-2001",
+  name: "Bolsa promocional 2025",
+  description: "Bolsa reutilizable edición 2025",
+  category: "Regalos",
+  tags: ["promo","2025"],
+  attributes: { color: ["negro"], size: ["único"] },
+  price: 12000, currency: "COP",
+  stock: { central: 100, bucaramanga: 20 },
+  rating: 0,
+  reviews: [],
+  created_at: new Date(),
+  updated_at: new Date()
+});
