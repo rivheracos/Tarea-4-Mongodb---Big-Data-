@@ -1,0 +1,25 @@
+{
+  "_id": ObjectId(),
+  "sku": "FFBC-0001",
+  "name": "Mochila ecológica",
+  "description": "Mochila en material reciclado, 20L.",
+  "category": "Accesorios",
+  "tags": ["eco","textil","popular"],
+  "attributes": {
+    "color": ["negro","azul","verde"],
+    "size": ["único"]
+  },
+  "price": 75000,           // pesos colombianos
+  "currency": "COP",
+  "stock": {
+    "central": 25,
+    "bucaramanga": 10
+  },
+  "rating": 4.5,
+  "reviews": [
+    {"user_id": "U100", "stars": 5, "comment": "Excelente"},
+    {"user_id": "U101", "stars": 4, "comment": "Buena calidad"}
+  ],
+  "created_at": ISODate("2025-11-01T10:00:00Z"),
+  "updated_at": ISODate("2025-11-05T12:00:00Z")
+}
